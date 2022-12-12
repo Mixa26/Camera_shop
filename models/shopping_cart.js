@@ -11,6 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.hasMany(models.Employees, {foreignKey: "cameraId", as: "cameras", onDelete: "cascade", hooks: true});
+      this.hasMany(models.Employees, {foreignKey: "lensId", as: "lenses", onDelete: "cascade", hooks: true});
+      this.hasMany(models.Employees, {foreignKey: "tripodId", as: "tripods", onDelete: "cascade", hooks: true});
+      this.hasMany(models.Employees, {foreignKey: "filterId", as: "filters", onDelete: "cascade", hooks: true});
+      this.hasMany(models.Employees, {foreignKey: "microphoneId", as: "microphones", onDelete: "cascade", hooks: true});
+      this.belongsTo(models.Purchase, {foreign_key: "purchaseId", as: "purchases"});
     }
   }
   shopping_cart.init({

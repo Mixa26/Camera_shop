@@ -11,13 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.Camera_shop, {foreign_key: "camera_shopId", as: "camera_shop"});
+      this.belongsTo(models.shopping_cart, {foreign_key: "shopping_cartId", as: "shopping_cart"});
     }
   }
   Tripods.init({
     company: DataTypes.STRING,
     model: DataTypes.STRING,
     carry_capacity: DataTypes.INTEGER,
-    meant_for: DataTypes.STRING
+    meant_for: DataTypes.STRING,
+    price: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Tripods',

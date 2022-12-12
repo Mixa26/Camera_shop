@@ -11,13 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.Camera_shop, {foreign_key: "camera_shopId", as: "camera_shop"});
+      this.belongsTo(models.shopping_cart, {foreign_key: "shopping_cartId", as: "shopping_cart"});
     }
   }
   Lenses.init({
     company: DataTypes.STRING,
     zoom: DataTypes.STRING,
     focal_length: DataTypes.STRING,
-    mount: DataTypes.STRING
+    mount: DataTypes.STRING,
+    price: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Lenses',

@@ -10,7 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      // define association here   
+      this.belongsTo(models.Camera_shop, {foreign_key: "camera_shopId", as: "camera_shop"});
+      this.belongsTo(models.shopping_cart, {foreign_key: "shopping_cartId", as: "shopping_cart"});
     }
   }
   Cameras.init({
@@ -19,7 +21,8 @@ module.exports = (sequelize, DataTypes) => {
     sensor: DataTypes.STRING,
     megapixels: DataTypes.INTEGER,
     video_size: DataTypes.STRING,
-    video_fps: DataTypes.INTEGER
+    video_fps: DataTypes.INTEGER,
+    price: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Cameras',
