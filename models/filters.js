@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.Camera_shop, {foreign_key: "camera_shopId", as: "camera_shop"});
-      this.belongsTo(models.shopping_cart, {foreign_key: "shopping_cartId", as: "shopping_cart"});
+      this.belongsTo(models.Camera_shop, {foreign_key: "cameraShopId", as: "camera_shop"});
+      this.belongsTo(models.shopping_cart, {foreign_key: "shoppingCartId", as: "shopping_cart"});
     }
   }
   Filters.init({

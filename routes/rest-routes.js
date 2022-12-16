@@ -3,14 +3,18 @@ Filters, Lenses, Microphones, Purchases, shopping_cart,
 Suppliers, Tripods} = require("../models");
 const express = require('express');
 
+const cors = require('cors');
+
 //TODO ODRADI VALIDACIJE OVDE
 
 const rtr = express.Router();
 rtr.use(express.json());
 rtr.use(express.urlencoded({extended: true}));
+rtr.use(cors());
 
 //GET ALL METHODS
 rtr.get('/camera_shops', (req, res) => {
+    //res.setHeader('Access-Control-Allow-Origin', '*');
     Camera_shop.findAll()
         .then(rows => res.json(rows))
         .catch(err => res.status(500).json(err))
@@ -355,7 +359,7 @@ rtr.put('/tripods/:id', (req, res) => {
 rtr.delete('/camera_shops/:id', (req, res) => {
     Camera_shop.findOne({ where: { id: req.params.id } })
         .then(shop => {
-        shop.destroy()
+            shop.destroy()
                 .then(rows => res.json(rows))
                 .catch(err => res.status(500).json(err))
         })

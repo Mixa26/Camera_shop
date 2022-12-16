@@ -9,11 +9,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      camera_shopId: {
+      cameraShopId: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      shopping_cartId: {
+      shoppingCartId: {
         type: Sequelize.INTEGER,
       },
       company: {
