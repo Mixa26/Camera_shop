@@ -6,6 +6,15 @@ const application_routes = require("../routes/application-routes.js");
 const app = express();
 
 app.use(express.static(path.join(__dirname, "../static/camera_shop")));
+app.use(express.static(path.join(__dirname, "../static/cameras")));
+app.use(express.static(path.join(__dirname, "../static/employees")));
+app.use(express.static(path.join(__dirname, "../static/filters")));
+app.use(express.static(path.join(__dirname, "../static/lenses")));
+app.use(express.static(path.join(__dirname, "../static/microphones")));
+app.use(express.static(path.join(__dirname, "../static/purchase")));
+app.use(express.static(path.join(__dirname, "../static/shopping_cart")));
+app.use(express.static(path.join(__dirname, "../static/suppliers")));
+app.use(express.static(path.join(__dirname, "../static/tripods")));
 
 app.use("/admin", application_routes);
 

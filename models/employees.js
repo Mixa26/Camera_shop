@@ -11,14 +11,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.Camera_shop, {foreign_key: "cameraShopId", as: "camera_shop"});
+      this.belongsTo(models.Camera_shop, {foreign_key: "cameraShopId", as: "cameraShop"});
     }
   }
   Employees.init({
     name: DataTypes.STRING,
     surname: DataTypes.STRING,
     email: DataTypes.STRING,
-    phoneNum: DataTypes.STRING
+    phoneNum: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Employees',

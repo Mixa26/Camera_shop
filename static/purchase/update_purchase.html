@@ -4,27 +4,27 @@
     </head>
     <body onload="init()">
         <div class="container">
+            <h1>Update purchase</h1>
             <div class="row">
                 <div class="col-lg-6">
-                    <form>  
+                    <form method="put" action="/api/purchases">  
                         <div class="form-group">
-                        <label for="id">Update Camera shop</label>
-                        <input type="number" class="form-control" id="id" aria-describedby="idHelp" placeholder="Camera shop id">
-                        <small id="idHelp" class="form-text text-muted">Id of the camera shop from the table.</small>
+                            <label for="id">Purchase id</label>
+                            <input type="text" id="id" class="form-control" aria-describedby="nameHelp" placeholder="Id of the purchase to update">
                         </div>
                         <div class="form-group">
-                        <label for="shopName">New shop name</label>
-                        <input type="text" class="form-control" id="shopName" placeholder="Name">
+                            <label for="price">Price $</label>
+                            <input type="text" id="price" class="form-control" placeholder="Price update">
                         </div>
                         <div class="form-group">
-                            <label for="shopLocation">New shop location</label>
-                            <input type="text" class="form-control" id="shopLocation" placeholder="Location">
+                            <label for="date">Date</label>
+                            <input type="text" id="date" class="form-control" aria-describedby="nameHelp" placeholder="New date">
                         </div>
                         <button type="submit" id="btn" class="btn btn-primary">Update</button>
                     </form>
                 </div>
             </div>
         </div>
-        <script src="/update_camera_shop.js"></script>
+        <script src="/update_purchase.js"></script>
     </body>
 </html>

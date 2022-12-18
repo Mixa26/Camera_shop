@@ -1,6 +1,6 @@
 const {sequelize, Camera_shop, Cameras, Employees,
-Filters, Lenses, Microphones, Purchases, shopping_cart,
-Suppliers, Tripods} = require("../models");
+Filters, Lenses, Microphones, Purchase, shopping_cart,
+Suppliers, Tripods} = require("../models")
 const express = require('express');
 
 const cors = require('cors');
@@ -51,7 +51,7 @@ rtr.get('/microphones', (req, res) => {
 });
 
 rtr.get('/purchases', (req, res) => {
-    Purchases.findAll()
+    Purchase.findAll()
         .then(rows => res.json(rows))
         .catch(err => res.status(500).json(err))
 });
@@ -112,7 +112,7 @@ rtr.get('/microphones/:id', (req, res) => {
 });
 
 rtr.get('/purchases/:id', (req, res) => {
-    Purchases.findOne({ where: { id: req.params.id } })
+    Purchase.findOne({ where: { id: req.params.id } })
         .then(rows => res.json(rows))
         .catch(err => res.status(500).json(err))
 });
@@ -145,21 +145,21 @@ rtr.post('/camera_shops', (req, res) => {
 rtr.post('/cameras', (req, res) => {
     Cameras.create({ company: req.body.company, model: req.body.model, sensor: req.body.sensor, 
         megapixels: req.body.megapixels, video_size: req.body.video_size, video_fps: req.body.video_fps,
-        price: req.body.price, camera_shopId: req.body.camera_shopId, shopping_cartId: req.body.shopping_cartId})
+        price: req.body.price, cameraShopId: req.body.cameraShopId})
         .then(rows => res.json(rows))
         .catch(err => res.status(500).json(err))
 });
 
 rtr.post('/employees', (req, res) => {
     Employees.create({ name: req.body.name, surname: req.body.surname, email: req.body.email,
-        phoneNum: req.body.phoneNum, camera_shopId: req.body.camera_shopId })
+        phoneNum: req.body.phoneNum, cameraShopId: req.body.cameraShopId })
         .then(rows => res.json(rows))
         .catch(err => res.status(500).json(err))
 });
 
 rtr.post('/filters', (req, res) => {
-    Filters.create({ company: req.body.company, diameter: req.body.diameter, purppse: req.body.purpose,
-        price: req.body.price, camera_shopId: req.body.camera_shopId, shopping_cartId: req.body.shopping_cartId })
+    Filters.create({ company: req.body.company, diameter: req.body.diameter, purpose: req.body.purpose,
+        price: req.body.price, cameraShopId: req.body.cameraShopId, shoppingCartId: req.body.shoppingCartId })
         .then(rows => res.json(rows))
         .catch(err => res.status(500).json(err))
 });
@@ -167,7 +167,7 @@ rtr.post('/filters', (req, res) => {
 rtr.post('/lenses', (req, res) => {
     Lenses.create({ company: req.body.company, zoom: req.body.zoom, focal_length: req.body.focal_length,
         mount: req.body.mount, price: req.body.price,
-        camera_shopId: req.body.camera_shopId, shopping_cartId: req.body.shopping_cartId })
+        cameraShopId: req.body.cameraShopId, shoppingCartId: req.body.shoppingCartId })
         .then(rows => res.json(rows))
         .catch(err => res.status(500).json(err))
 });
@@ -175,13 +175,13 @@ rtr.post('/lenses', (req, res) => {
 rtr.post('/microphones', (req, res) => {
     Microphones.create({ company: req.body.company, model: req.body.model, type: req.body.type,
         frequency_range: req.body.frequency_range, price: req.body.price,
-        camera_shopId: req.body.camera_shopId, shopping_cartId: req.body.shopping_cartId })
+        cameraShopId: req.body.cameraShopId, shoppingCartId: req.body.shoppingCartId })
         .then(rows => res.json(rows))
         .catch(err => res.status(500).json(err))
 });
 
 rtr.post('/purchases', (req, res) => {
-    Purchases.create({ price: req.body.price, date: req.body.date, camera_shopId: req.body.camera_shopId })
+    Purchase.create({ price: req.body.price, date: req.body.date, cameraShopId: req.body.cameraShopId })
         .then(rows => res.json(rows))
         .catch(err => res.status(500).json(err))
 });
@@ -194,7 +194,7 @@ rtr.post('/shopping_cart', (req, res) => {
 
 rtr.post('/suppliers', (req, res) => {
     Suppliers.create({ name: req.body.name, country_origin: req.body.country_origin ,
-        camera_shopId: req.body.camera_shopId})
+        cameraShopId: req.body.cameraShopId})
         .then(rows => res.json(rows))
         .catch(err => res.status(500).json(err))
 });
@@ -202,7 +202,7 @@ rtr.post('/suppliers', (req, res) => {
 rtr.post('/tripods', (req, res) => {
     Tripods.create({ company: req.body.company, model: req.body.model, carry_capacity: req.body.carry_capacity,
         meant_for: req.body.meant_for, price: req.body.price,
-        camera_shopId: req.body.camera_shopId, shopping_cartId: req.body.shopping_cartId })
+        cameraShopId: req.body.cameraShopId, shoppingCartId: req.body.shoppingCartId })
         .then(rows => res.json(rows))
         .catch(err => res.status(500).json(err))
 });
@@ -302,7 +302,7 @@ rtr.put('/microphones/:id', (req, res) => {
 });
 
 rtr.put('/purchases/:id', (req, res) => {
-    Purchases.findOne({ where: { id: req.params.id } })
+    Purchase.findOne({ where: { id: req.params.id } })
         .then(purchase => {
             purchase.price = req.body.price,
             purchase.date = req.body.date
@@ -344,7 +344,7 @@ rtr.put('/tripods/:id', (req, res) => {
         .then(tripod => {
             tripod.company = req.body.company,
             tripod.model = req.body.model,
-            tripod.carry_capacity = req.body.carry_capacity,get
+            tripod.carry_capacity = req.body.carry_capacity,
             tripod.meant_for = req.body.meant_for,
             tripod.price = req.body.price
 
@@ -417,7 +417,7 @@ rtr.delete('/microphones/:id', (req, res) => {
 });
 
 rtr.delete('/purchases/:id', (req, res) => {
-    Purchases.findOne({ where: { id: req.params.id } })
+    Purchase.findOne({ where: { id: req.params.id } })
         .then(purchase => {
           purchase.destroy()
                 .then(rows => res.json(rows))
