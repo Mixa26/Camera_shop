@@ -7,7 +7,7 @@ function init() {
             zoom: document.getElementById("zoom").value,
             focal_length: document.getElementById("focal_length").value,
             mount: document.getElementById("mount").value,
-            video_size: document.getElementById("price").value,
+            price: document.getElementById("price").value,
             cameraShopId: document.getElementById("cameraShopId").value
         };
 

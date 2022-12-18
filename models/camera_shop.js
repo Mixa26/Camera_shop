@@ -11,14 +11,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.Employees, {foreignKey: "cameraShopId", as: "employees"}); //, onDelete: "cascade", hooks: true
-      this.hasMany(models.Suppliers, {foreignKey: "cameraShopId", as: "suppliers"});
-      this.hasMany(models.Cameras, {foreignKey: "cameraShopId", as: "cameras"});
-      this.hasMany(models.Lenses, {foreignKey: "cameraShopId", as: "lenses"});
-      this.hasMany(models.Tripods, {foreignKey: "cameraShopId", as: "tripods"});
-      this.hasMany(models.Filters, {foreignKey: "cameraShopId", as: "filters"});
-      this.hasMany(models.Microphones, {foreignKey: "cameraShopId", as: "microphones"});
-      this.hasMany(models.Purchase, {foreignKey: "cameraShopId", as: "purchase"});
+      this.hasMany(models.Employees); //, onDelete: "cascade", hooks: true
+      this.hasMany(models.Suppliers);
+      this.hasMany(models.Cameras);
+      this.hasMany(models.Lenses);
+      this.hasMany(models.Tripods);
+      this.hasMany(models.Filters);
+      this.hasMany(models.Microphones);//{foreignKey: "cameraShopId", as: "microphones"}
+      this.hasMany(models.Purchase);
     }
   }
   Camera_shop.init({

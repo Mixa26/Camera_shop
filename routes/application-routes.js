@@ -5,6 +5,10 @@ const rtr = express.Router();
 rtr.use(express.json());
 
 const options = {root: path.join(__dirname, "../static")};
+//Main
+rtr.get('/main', (req,res) => {
+    res.sendFile("main.html", options)
+});
 //Camera shops
 rtr.get('/camera_shops', (req,res) => {
     //res.sendFile(__dirname, "../static/camera_shop/show_camera_shop.html");

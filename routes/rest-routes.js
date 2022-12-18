@@ -117,7 +117,7 @@ rtr.get('/purchases/:id', (req, res) => {
         .catch(err => res.status(500).json(err))
 });
 
-rtr.get('/shopping_cart/:id', (req, res) => {findOne({ where: { id: req.params.id } })
+rtr.get('/shopping_cart/:id', (req, res) => {
     shopping_cart.findOne({ where: { id: req.params.id } })
         .then(rows => res.json(rows))
         .catch(err => res.status(500).json(err))
@@ -314,7 +314,7 @@ rtr.put('/purchases/:id', (req, res) => {
         .catch(err => res.status(500).json(err))
 });
 
-rtr.put('/shopping_cart/:id', (req, res) => {findOne({ where: { id: req.params.id } })
+rtr.put('/shopping_cart/:id', (req, res) => {
     shopping_cart.findOne({ where: { id: req.params.id } })
         .then(shopping_cart => {
             shopping_cart.price = req.body.price
@@ -426,7 +426,7 @@ rtr.delete('/purchases/:id', (req, res) => {
         .catch(err => res.status(500).json(err))
 });
 
-rtr.delete('/shopping_cart/:id', (req, res) => {findOne({ where: { id: req.params.id } })
+rtr.delete('/shopping_cart/:id', (req, res) => {
     shopping_cart.findOne({ where: { id: req.params.id } })
         .then(shopping_cart => {
           shopping_cart.destroy()
