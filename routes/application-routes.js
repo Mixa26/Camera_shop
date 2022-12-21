@@ -1,16 +1,56 @@
 const express = require('express');
 const path = require('path');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const rtr = express.Router();
 rtr.use(express.json());
 
+function getCookies(req) {
+    if (req.headers.cookie === null || req.headers.cookie === undefined)return;
+    const rawCookie = req.headers.cookie.split("; ");
+    const parsedCookie = {};
+
+    rawCookie.forEach(element => {
+        const tmp = element.split("=");
+        parsedCookie[tmp[0]] = tmp[1];
+    });
+
+    return parsedCookie;
+}
+
+function authToken(req, res, next) {
+    const cookies = getCookies(req);
+    console.log("HLEOU");
+    if (cookies === null || cookies === undefined) {console.log("COOKIE BAD")};
+    //if (cookies === null || cookies === undefined) return res.redirect(301, '/admin/login');
+    console.log("COOKIE OK");
+    const token = cookies['token'];
+    if (token === null || token === undefined) return res.redirect(301, '/admin/login');
+    console.log("TOKEN OK");
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, res) => {
+        if (err) return res.redirect(301, '/admin/login');
+
+        req.user = res;
+
+        next();
+    })
+}
+
 const options = {root: path.join(__dirname, "../static")};
+//Authentification
+rtr.get('/login', (req,res) => {
+    res.sendFile("authentification/login.html", options)
+});
+rtr.get('/register', (req,res) => {
+    res.sendFile("authentification/register.html", options)
+});
 //Main
-rtr.get('/main', (req,res) => {
+rtr.get('/main', authToken, (req,res) => {
     res.sendFile("main.html", options)
 });
 //Camera shops
-rtr.get('/camera_shops', (req,res) => {
+rtr.get('/camera_shops', authToken, (req,res) => {
     //res.sendFile(__dirname, "../static/camera_shop/show_camera_shop.html");
     //res.sendFile("show_camera_shop.html");
     res.sendFile("camera_shop/show_camera_shop.html", options)

@@ -1,6 +1,8 @@
 function init(){
+    const cookies = document.cookie.split("=");
+    const token = cookies[cookies.length -1];
 
-    fetch("http://127.0.0.1:8000/api/lenses")
+    fetch("http://127.0.0.1:8000/api/lenses",{headers: {'Authorization': `Bearer ${token}`}})
         .then( res => res.json() )
         .then( data => {
             const lenses = document.getElementById("lenses");

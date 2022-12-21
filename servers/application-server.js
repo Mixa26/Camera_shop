@@ -5,6 +5,7 @@ const application_routes = require("../routes/application-routes.js");
 
 const app = express();
 
+app.use(express.static(path.join(__dirname, "../static/authentification")));
 app.use(express.static(path.join(__dirname, "../static/camera_shop")));
 app.use(express.static(path.join(__dirname, "../static/cameras")));
 app.use(express.static(path.join(__dirname, "../static/employees")));

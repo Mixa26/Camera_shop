@@ -1,4 +1,7 @@
 function init() {
+    const cookies = document.cookie.split("=");
+    const token = cookies[cookies.length -1];
+
     document.getElementById("btn").addEventListener("click", e => {
         e.preventDefault();
 
@@ -8,6 +11,7 @@ function init() {
 
         fetch("http://127.0.0.1:8000/api/purchases/" + number,{
             method: 'delete',
+            headers: {'Authorization': `Bearer ${token}`}
         })
     });
 }

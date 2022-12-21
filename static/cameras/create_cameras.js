@@ -1,4 +1,7 @@
 function init() {
+    const cookies = document.cookie.split("=");
+    const token = cookies[cookies.length -1];
+
     document.getElementById("btn").addEventListener("click", e => {
         e.preventDefault();
 
@@ -24,7 +27,8 @@ function init() {
 
         fetch("http://127.0.0.1:8000/api/cameras",{
             method: 'post',
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`},
             body: JSON.stringify(data)
         })
     });

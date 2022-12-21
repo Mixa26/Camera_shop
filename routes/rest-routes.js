@@ -2,6 +2,8 @@ const {sequelize, Camera_shop, Cameras, Employees,
 Filters, Lenses, Microphones, Purchase, shopping_cart,
 Suppliers, Tripods} = require("../models")
 const express = require('express');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const cors = require('cors');
 
@@ -11,6 +13,23 @@ const rtr = express.Router();
 rtr.use(express.json());
 rtr.use(express.urlencoded({extended: true}));
 rtr.use(cors());
+
+function authToken(req, res, next) {
+    console.log(req.headers);
+    const auth = req.headers['authorization'];
+    const token = auth && auth.split(' ')[1];
+    if (token === null || token === undefined) return res.status(401).json({ msg: "You're not authorized." });
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, res) => {
+        if (err) return res.status(403).json({ msg: "Something went wrong with authorizing your request." });
+
+        req.user = res;
+
+        next();
+    })
+}
+
+rtr.use(authToken);
 
 //GET ALL METHODS
 rtr.get('/camera_shops', (req, res) => {
