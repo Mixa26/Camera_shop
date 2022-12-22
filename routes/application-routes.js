@@ -1,40 +1,43 @@
 const express = require('express');
 const path = require('path');
 const jwt = require('jsonwebtoken');
+const e = require('express');
 require('dotenv').config();
 
 const rtr = express.Router();
 rtr.use(express.json());
 
 function getCookies(req) {
-    if (req.headers.cookie === null || req.headers.cookie === undefined)return;
-    const rawCookie = req.headers.cookie.split("; ");
-    const parsedCookie = {};
+    if (req.headers.cookie == null) return {};
 
-    rawCookie.forEach(element => {
-        const tmp = element.split("=");
-        parsedCookie[tmp[0]] = tmp[1];
+    const rawCookies = req.headers.cookie.split('; ');
+    const parsedCookies = {};
+
+    rawCookies.forEach( rawCookie => {
+        const parsedCookie = rawCookie.split('=');
+        parsedCookies[parsedCookie[0]] = parsedCookie[1];
     });
 
-    return parsedCookie;
-}
+    return parsedCookies;
+};
 
 function authToken(req, res, next) {
     const cookies = getCookies(req);
-    console.log("HLEOU");
-    if (cookies === null || cookies === undefined) {console.log("COOKIE BAD")};
-    //if (cookies === null || cookies === undefined) return res.redirect(301, '/admin/login');
-    console.log("COOKIE OK");
     const token = cookies['token'];
-    if (token === null || token === undefined) return res.redirect(301, '/admin/login');
-    console.log("TOKEN OK");
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, res) => {
-        if (err) return res.redirect(301, '/admin/login');
-
-        req.user = res;
-
+  
+    if (token == null){
+        return res.redirect(301, '/admin/login');
+    }
+  
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        if (err) {
+            return res.redirect(301, '/admin/login');
+        }
+    
+        req.user = user;
+    
         next();
-    })
+    });
 }
 
 const options = {root: path.join(__dirname, "../static")};
@@ -45,12 +48,13 @@ rtr.get('/login', (req,res) => {
 rtr.get('/register', (req,res) => {
     res.sendFile("authentification/register.html", options)
 });
+rtr.use(authToken);
 //Main
-rtr.get('/main', authToken, (req,res) => {
+rtr.get('/', (req,res) => {
     res.sendFile("main.html", options)
 });
 //Camera shops
-rtr.get('/camera_shops', authToken, (req,res) => {
+rtr.get('/camera_shops', (req,res) => {
     //res.sendFile(__dirname, "../static/camera_shop/show_camera_shop.html");
     //res.sendFile("show_camera_shop.html");
     res.sendFile("camera_shop/show_camera_shop.html", options)
@@ -219,6 +223,23 @@ rtr.get('/delete_tripods', (req,res) => {
 
 rtr.get('/update_tripods', (req,res) => {
     res.sendFile("tripods/update_tripods.html", options)
+});
+
+//Users
+rtr.get('/users', (req,res) => {
+    res.sendFile("users/show_users.html", options)
+});
+
+rtr.get('/create_users', (req,res) => {
+    res.sendFile("users/create_users.html", options)
+});
+
+rtr.get('/delete_users', (req,res) => {
+    res.sendFile("users/delete_users.html", options)
+});
+
+rtr.get('/update_users', (req,res) => {
+    res.sendFile("users/update_users.html", options)
 });
 
 module.exports = rtr;

@@ -22,7 +22,7 @@ function init(){
                 document.getElementById('password').value = ""
                 
                 document.cookie = `token=${el.token};SameSite=Lax`;
-                window.location.href = '/admin/main';
+                window.location.href = '/admin/';
             }
         })
         
