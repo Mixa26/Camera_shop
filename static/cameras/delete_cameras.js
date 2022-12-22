@@ -24,11 +24,28 @@ function init() {
             fetch("http://127.0.0.1:8000/api/cameras/" + number,{
                 method: 'delete',
                 headers: {'Authorization': `Bearer ${token}`}
-            })
-            document.getElementById('error').innerHTML = "Successfully deleted.";
-            document.getElementById('error').style.color = "green";
+            }).then( res => res.json() )
+            .then( el => {
+                if (el.msg){
+                    if (Array.isArray(el.msg)){
+                        let message = "";
+                        el.msg.forEach(element => {
+                            message += element.message;
+                        });
+                        document.getElementById('error').innerHTML = message;
+                        document.getElementById('error').style.color = "red";
+                    }
+                    else{
+                        document.getElementById('error').innerHTML = el.msg;
+                        document.getElementById('error').style.color = "red";
+                    }
+                }
+                else{
+                    document.getElementById('error').innerHTML = "Successfully deleted.";
+                    document.getElementById('error').style.color = "green";
 
-            document.getElementById("id").value = "";
+                    document.getElementById("id").value = "";
+                }})
         }
     });
 }

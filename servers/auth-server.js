@@ -5,11 +5,34 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const e = require('express');
+const Joi = require('joi');
+const { response } = require('express');
 require('dotenv').config();
 
 const app = express();
 
 const options = {root: path.join(__dirname, "../static")};
+
+function validateUser(user){
+    const JoiSchema = Joi.object({
+      
+        username: Joi.string()
+                  .required(),
+                    
+        email: Joi.string()
+               .email()
+               .min(5)
+               .required(), 
+                 
+        password: Joi.string()
+                    .min(4)
+                    .required(),
+
+        admin: Joi.boolean(),
+    }).options({ abortEarly: false });
+  
+    return JoiSchema.validate(user)
+}
 
 function authToken(req, res1, next){
     const auth = req.headers['authorization'];
@@ -48,7 +71,6 @@ app.post('/login', (req, res) => {
             const obj = {
                 id: usr.id,
                 username: usr.username,
-                admin: usr.admin
             }
 
             const token = jwt.sign(obj, process.env.ACCESS_TOKEN_SECRET)
@@ -69,18 +91,23 @@ app.post('/register', (req,res) => {
         admin: req.body.admin
     }
 
-    Users.create(obj).then(rows => {
-        const usr = {
-            id: rows.id,
-            username: rows.username,
-            admin: rows.admin
+    let response = validateUser(obj)
+    
+    if (response.error){
+        return res.status(400).json({msg: response.error.details});
+    }
+    else{
+        Users.create(obj).then(rows => {
+            const usr = {
+                id: rows.id,
+                username: rows.username,
+            }
             
-        }
-        
-        const token = jwt.sign(usr, process.env.ACCESS_TOKEN_SECRET)
+            const token = jwt.sign(usr, process.env.ACCESS_TOKEN_SECRET)
 
-        res.json({ token: token });
-    }).catch(err => {res.status(501).json(err)})
+            res.json({ token: token });
+        }).catch(err => {res.status(501, "Something went wrong. :(")})
+    }
 });
 
 app.use(authToken);

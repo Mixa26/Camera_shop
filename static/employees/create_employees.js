@@ -20,17 +20,9 @@ function validate(input){
         valid = false;
         errorMsg += "Employee surname can't contain numbers!<br>";
     }
-    if (input.sensor.length <= 0){
-        valid = false;
-        errorMsg += "Camera sensor can't be empty!<br>";
-    }
     if (input.email.length < 5){
         valid = false;
         errorMsg += "Email must be at least 5 characters long.<br>";
-    }
-    if (!/[a-zA-Z0-9]@[a-zA-Z0-9].[a-zA-Z0-9]$/.test(input.email.length)){
-        valid = false;
-        errorMsg += "Email must be of format emailName@emailDomain.topLevelDomain";
     }
     if (!Number(input.phoneNum)){
         valid = false;
@@ -69,16 +61,33 @@ function init() {
                 headers: {'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`},
                 body: JSON.stringify(data)
-            })
+            }).then( res => res.json() )
+            .then( el => {
+                if (el.msg){
+                    if (Array.isArray(el.msg)){
+                        let message = "";
+                        el.msg.forEach(element => {
+                            message += element.message;
+                        });
+                        document.getElementById('error').innerHTML = message;
+                        document.getElementById('error').style.color = "red";
+                    }
+                    else{
+                        document.getElementById('error').innerHTML = el.msg;
+                        document.getElementById('error').style.color = "red";
+                    }
+                }
+                else{
 
-            document.getElementById('error').innerHTML = "Employee added.";
-            document.getElementById('error').style.color = "green";
+                    document.getElementById('error').innerHTML = "Employee added.";
+                    document.getElementById('error').style.color = "green";
 
-            document.getElementById("name").value = "";
-            document.getElementById("surname").value = "";
-            document.getElementById("email").value = "";
-            document.getElementById("phoneNum").value = "";
-            document.getElementById("cameraShopId").value = "";
+                    document.getElementById("name").value = "";
+                    document.getElementById("surname").value = "";
+                    document.getElementById("email").value = "";
+                    document.getElementById("phoneNum").value = "";
+                    document.getElementById("cameraShopId").value = "";
+                }})
         } 
     });
 }

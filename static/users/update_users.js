@@ -54,7 +54,18 @@ function init() {
             }).then( res => res.json() )
             .then( el => {
                 if (el.msg){
-                    document.getElementById("error").innerHTML = el.msg;
+                    if (Array.isArray(el.msg)){
+                        let message = "";
+                        el.msg.forEach(element => {
+                            message += element.message;
+                        });
+                        document.getElementById('error').innerHTML = message;
+                        document.getElementById('error').style.color = "red";
+                    }
+                    else{
+                        document.getElementById('error').innerHTML = el.msg;
+                        document.getElementById('error').style.color = "red";
+                    }
                 }
                 else{
 

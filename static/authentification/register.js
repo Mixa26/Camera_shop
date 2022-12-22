@@ -43,16 +43,26 @@ function init(){
                 body: JSON.stringify(data)
             }).then( res => res.json() )
             .then( el => {
-                document.getElementById('error').innerHTML = "";
+                if (el.msg){
+                    let message = "";
+                    el.msg.forEach(element => {
+                        message += element.message;
+                    });
+                    document.getElementById('error').innerHTML = "";
+                    document.getElementById('error').innerHTML += message;
+                }
+                else{
+                    document.getElementById('error').innerHTML = "";
 
-                document.getElementById('username').value = "",
-                document.getElementById('email').value = "",
-                document.getElementById('password').value = "",
-                document.getElementById('admin').checked = false
+                    document.getElementById('username').value = "",
+                    document.getElementById('email').value = "",
+                    document.getElementById('password').value = "",
+                    document.getElementById('admin').checked = false
 
-                document.cookie = `token=${el.token};SameSite=Lax`;
-                
-                window.location.href = '/admin/';       
+                    document.cookie = `token=${el.token};SameSite=Lax`;
+                    
+                    window.location.href = '/admin/';     
+                }  
             })
         }
     })

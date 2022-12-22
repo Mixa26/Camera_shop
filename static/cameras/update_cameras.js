@@ -69,19 +69,36 @@ function init() {
                 headers: {'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`},
                 body: JSON.stringify(data)
-            })
+            }).then( res => res.json() )
+            .then( el => {
+                if (el.msg){
+                    if (Array.isArray(el.msg)){
+                        let message = "";
+                        el.msg.forEach(element => {
+                            message += element.message;
+                        });
+                        document.getElementById('error').innerHTML = message;
+                        document.getElementById('error').style.color = "red";
+                    }
+                    else{
+                        document.getElementById('error').innerHTML = el.msg;
+                        document.getElementById('error').style.color = "red";
+                    }
+                }
+                else{
 
-            document.getElementById('error').innerHTML = "Camera shop updated.";
-            document.getElementById('error').style.color = "green";
+                    document.getElementById('error').innerHTML = "Camera shop updated.";
+                    document.getElementById('error').style.color = "green";
 
-            document.getElementById("id").value = "";
-            document.getElementById("company").value = "";
-            document.getElementById("model").value = "";
-            document.getElementById("sensor").value = "";
-            document.getElementById("megapixels").value = "";
-            document.getElementById("video_size").value = "";
-            document.getElementById("video_fps").value = "";
-            document.getElementById("price").value = "";
+                    document.getElementById("id").value = "";
+                    document.getElementById("company").value = "";
+                    document.getElementById("model").value = "";
+                    document.getElementById("sensor").value = "";
+                    document.getElementById("megapixels").value = "";
+                    document.getElementById("video_size").value = "";
+                    document.getElementById("video_fps").value = "";
+                    document.getElementById("price").value = "";
+                }})
         }
     });
 }

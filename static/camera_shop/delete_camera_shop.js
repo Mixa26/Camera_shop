@@ -24,12 +24,19 @@ function init() {
             fetch("http://127.0.0.1:8000/api/camera_shops/" + number,{
                 method: 'delete',
                 headers: {'Authorization': `Bearer ${token}`}
-            })
+            }).then( res => res.json() )
+            .then( el => {
+                if (el.msg){
+                    document.getElementById('error').innerHTML = el.msg;
+                    document.getElementById('error').style.color = "red";
+                }
+                else{
 
-            document.getElementById('error').innerHTML = "Successfully deleted.";
-            document.getElementById('error').style.color = "green";
+                    document.getElementById('error').innerHTML = "Successfully deleted.";
+                    document.getElementById('error').style.color = "green";
 
-            document.getElementById("id").value = "";
+                    document.getElementById("id").value = "";
+                }})
         }
     });
 }
